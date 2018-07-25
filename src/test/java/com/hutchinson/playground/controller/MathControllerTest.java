@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,11 +84,32 @@ class MathControllerTest {
   ///math/sum?n=4&n=5&n=6 should render the string 4 + 5 + 6 = 15
   @Test
   void mathSum_shouldReturnExpectedString_forMultipleParameters() throws Exception{
-      this.mvc.perform(post("/math/sum")
-          .param("n", "4")
-          .param("n", "5")
-          .param("n", "6"))
-          .andExpect(status().isOk())
-          .andExpect(content().string("4 + 5 + 6 = 15"));
+    this.mvc.perform(post("/math/sum")
+        .param("n", "4")
+        .param("n", "5")
+        .param("n", "6"))
+        .andExpect(status().isOk())
+        .andExpect(content().string("4 + 5 + 6 = 15"));
+  }
+
+  @Test
+  void mathVolume_shouldReturnExpectedString_forGivenGetRequest() throws Exception {
+    this.mvc.perform(get("/math/volume/6/7/8"))
+      .andExpect(status().isOk())
+      .andExpect(content().string("The volume of a 6x7x8 rectangle is 336"));
+  }
+
+  @Test
+  void mathVolume_shouldReturnExpectedString_forGivenPostRequest() throws Exception {
+    this.mvc.perform(post("/math/volume/6/7/8"))
+      .andExpect(status().isOk())
+      .andExpect(content().string("The volume of a 6x7x8 rectangle is 336"));
+  }
+
+  @Test
+  void mathVolume_shouldReturnExpectedString_forGivenPatchRequest() throws Exception {
+    this.mvc.perform(patch("/math/volume/6/7/8"))
+      .andExpect(status().isOk())
+      .andExpect(content().string("The volume of a 6x7x8 rectangle is 336"));
   }
 }

@@ -3,7 +3,6 @@ package com.hutchinson.playground.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -67,4 +66,12 @@ class MathServiceTest {
 
     assertEquals(expected, actual, "Add 10 + 20 + 30 = 60");
     }
+
+  @Test
+  void volume_returnsCorrectString(){
+    String actual = mathService.volume(6, 7, 8);
+    String expected = "The volume of a 6x7x8 rectangle is 336";
+
+    assertEquals(expected, actual, "Should return: The volume of a 6x7x8 rectangle is 336");
+  }
 }

@@ -21,16 +21,23 @@ public class MathController {
         return "3.141592653589793";
     }
 
-    @GetMapping("/calculate")
-    public String calculate(
-            @RequestParam(required = false, defaultValue = "add") String operation,
-            @RequestParam Integer x,
-            @RequestParam Integer y) {
-      return mathService.calculate(operation, x, y);
-    }
+  @GetMapping("/calculate")
+  public String calculate(
+          @RequestParam(required = false, defaultValue = "add") String operation,
+          @RequestParam Integer x,
+          @RequestParam Integer y) {
+    return mathService.calculate(operation, x, y);
+  }
 
-    @PostMapping("/sum")
-    public String sum(@RequestParam LinkedMultiValueMap<String, String> parameterMap) {
-      return mathService.sum(parameterMap);
-    }
+  @PostMapping("/sum")
+  public String sum(@RequestParam LinkedMultiValueMap<String, String> parameterMap) {
+    return mathService.sum(parameterMap);
+  }
+
+  @RequestMapping("/volume/{length}/{width}/{height}")
+  public String volume(@PathVariable Integer length,
+                       @PathVariable Integer width,
+                       @PathVariable Integer height){
+    return mathService.volume(length, width, height);
+  }
 }
