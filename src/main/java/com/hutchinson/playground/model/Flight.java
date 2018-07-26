@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
-import sun.security.krb5.internal.Ticket;
-
 import java.util.Date;
 import java.util.List;
 
