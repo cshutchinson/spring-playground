@@ -1,17 +1,15 @@
 package com.hutchinson.playground.controller;
 
-import com.hutchinson.playground.model.Flight;
-import com.hutchinson.playground.model.Passenger;
-import com.hutchinson.playground.model.Ticket;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.hutchinson.playground.model.*;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 
@@ -27,6 +25,21 @@ public class FlightController {
   @GetMapping("/flight")
   public Flight flight() throws Exception{
     return getFlight();
+  }
+
+  @PostMapping("/tickets/total")
+  public TotalResponse total(@RequestBody TotalRequest request) throws Exception{
+    System.out.println("request = " + request);
+    return getTotal(request);
+  }
+
+  private TotalResponse getTotal(TotalRequest request){
+    List<Ticket> tickets = request.getTickets();
+    int sum = tickets.stream().mapToInt(Ticket::getPrice).sum();
+
+    return TotalResponse.builder()
+      .result(sum)
+      .build();
   }
 
   private Date dateGen(String dateString) throws Exception{
