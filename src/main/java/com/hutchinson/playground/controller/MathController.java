@@ -1,11 +1,10 @@
 package com.hutchinson.playground.controller;
 
+import com.hutchinson.playground.model.AreaRequest;
 import com.hutchinson.playground.service.MathService;
+import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/math")
@@ -39,5 +38,10 @@ public class MathController {
                        @PathVariable Integer width,
                        @PathVariable Integer height){
     return mathService.volume(length, width, height);
+  }
+
+  @PostMapping(value = "/area", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  public String area(AreaRequest areaRequest){
+    return mathService.area(areaRequest);
   }
 }

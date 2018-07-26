@@ -1,5 +1,6 @@
 package com.hutchinson.playground.service;
 
+import com.hutchinson.playground.model.AreaRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.LinkedMultiValueMap;
@@ -73,5 +74,59 @@ class MathServiceTest {
     String expected = "The volume of a 6x7x8 rectangle is 336";
 
     assertEquals(expected, actual, "Should return: The volume of a 6x7x8 rectangle is 336");
+  }
+
+  @Test
+  void area_forTypeRectangle_returnsCorrectString(){
+    AreaRequest areaRequest = new AreaRequest("rectangle", null, 4, 7);
+    String actual = mathService.area(areaRequest);
+    String expected = "Area of a 4x7 rectangle is 28";
+
+    assertEquals(expected, actual, expected);
+  }
+
+  @Test
+  void area_forTypeCircle_returnsCorrectString(){
+    AreaRequest areaRequest = new AreaRequest("circle", 4, null, null);
+    String actual = mathService.area(areaRequest);
+    String expected = "Area of a circle with a radius of 4 is 50.26548";
+
+    assertEquals(expected, actual, expected);
+  }
+
+  @Test
+  void area_forInvalidRequest_returnsCorrectString_whenAllParamsNull(){
+    AreaRequest areaRequest = new AreaRequest(null, null, null, null);
+    String actual = mathService.area(areaRequest);
+    String expected = "Invalid";
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void area_forInvalidRequest_returnsCorrectString_whenAllParamsEmptyAndZero(){
+    AreaRequest areaRequest = new AreaRequest("", 0,0,0);
+    String actual = mathService.area(areaRequest);
+    String expected = "Invalid";
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void area_forInvalidRequest_returnsCorrectString_whenTypeDefinedRectangleButSizesAreZero(){
+    AreaRequest areaRequest = new AreaRequest("rectangle", 0,0,0);
+    String actual = mathService.area(areaRequest);
+    String expected = "Invalid";
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void area_forInvalidRequest_returnsCorrectString_whenTypeDefinedCircleButSizesAreZero(){
+    AreaRequest areaRequest = new AreaRequest("circle", 0,0,0);
+    String actual = mathService.area(areaRequest);
+    String expected = "Invalid";
+
+    assertEquals(expected, actual);
   }
 }

@@ -1,10 +1,13 @@
 package com.hutchinson.playground.service;
 
+import com.hutchinson.playground.model.AreaRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.Math.PI;
 
 @Component
 public class MathService {
@@ -57,4 +60,37 @@ public class MathService {
       length, width, height, length*width*height);
   }
 
+  public String area (AreaRequest areaRequest){
+    if (!validAreaRequest(areaRequest)) return "Invalid";
+
+    switch (areaRequest.getType()){
+      case "rectangle":
+        return String.format("Area of a %dx%d %s is %d",
+              areaRequest.getWidth(),
+              areaRequest.getHeight(),
+              areaRequest.getType(),
+              areaRequest.getWidth() * areaRequest.getHeight());
+      case "circle":
+        return String.format("Area of a %s with a radius of %d is %.5f",
+              areaRequest.getType(),
+              areaRequest.getRadius(),
+              areaRequest.getRadius() * areaRequest.getRadius() * PI);
+    }
+    return "Invalid";
+  }
+
+  private boolean validAreaRequest(AreaRequest request){
+    if (request.getType()==null || request.getType().isEmpty()){
+      return false;
+    }
+    switch (request.getType()) {
+      case "rectangle":
+        return request.getHeight() != null && request.getWidth() != null &&
+          request.getHeight() > 0 && request.getWidth() > 0;
+      case "circle":
+        return request.getRadius() != null && request.getRadius() > 0;
+      default:
+        return false;
+    }
+  }
 }
