@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(MathController.class)
 class MathControllerTest {
   private MathService mathService = new MathService();
-  private MockMvc mvc = MockMvcBuilders.standaloneSetup(new MathController(mathService)).build();;
+  private MockMvc mvc = MockMvcBuilders.standaloneSetup(new MathController(mathService)).build();
 
   @BeforeEach
   void setup() {
