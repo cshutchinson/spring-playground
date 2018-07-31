@@ -16,6 +16,20 @@ public class Lesson {
   @JsonFormat(pattern = "yyyy-MM-dd")
   private Date deliveredOn;
 
+  public Lesson() {
+  }
+
+  public Lesson(String title, Date deliveredOn) {
+    this.title = title;
+    this.deliveredOn = deliveredOn;
+  }
+
+  public Lesson(String title) {
+    this.title = title;
+  }
+
+
+
   public Long getId() {
     return id;
   }
@@ -38,5 +52,13 @@ public class Lesson {
 
   public void setDeliveredOn(Date deliveredOn) {
     this.deliveredOn = deliveredOn;
+  }
+
+  @Override
+  public String toString() {
+    return "Lesson{" +
+      "title='" + title + '\'' +
+      ", deliveredOn=" + deliveredOn +
+      '}';
   }
 }
