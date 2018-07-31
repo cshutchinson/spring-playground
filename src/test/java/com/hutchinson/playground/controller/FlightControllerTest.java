@@ -24,10 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MathController.class)
+@WebMvcTest(FlightController.class)
 class FlightControllerTest {
-//  private MathService mathService = new MathService();
-  private MockMvc mvc = MockMvcBuilders.standaloneSetup(new FlightController()).build();;
+  private MockMvc mvc = MockMvcBuilders.standaloneSetup(new FlightController()).build();
 
   @BeforeEach
   void setup() {
@@ -59,7 +58,6 @@ class FlightControllerTest {
       .andExpect(jsonPath("$[1].Departs", is("2017-04-21 14:34")))
       .andExpect(jsonPath("$[1].Tickets[0].Passenger.FirstName", is("Some other name")))
       .andExpect(jsonPath("$[1].Tickets[0].Price", is(400)));
-//    .andExpect(jsonPath("$[1].Tickets[0].Passenger.LastName", is(nullValue())))
   }
 
   @Test
