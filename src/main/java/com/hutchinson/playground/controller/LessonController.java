@@ -4,6 +4,9 @@ import com.hutchinson.playground.model.Lesson;
 import com.hutchinson.playground.repo.LessonRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -46,5 +49,16 @@ public class LessonController {
     }
 
     return this.lessonRepository.save(optionalLesson.get());
+  }
+
+  @GetMapping("/find/{title}")
+  public Lesson findByTitle(@PathVariable String title){
+    return lessonRepository.findByTitle(title);
+  }
+
+  @GetMapping("/between")
+  public Iterable<Lesson> between(@RequestParam String date1,
+                              @RequestParam String date2){
+    return lessonRepository.findBetweenDateRange(date1, date2);
   }
 }

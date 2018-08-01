@@ -14,16 +14,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -92,5 +97,44 @@ public class LessonControllerTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.title", equalTo("Please Don't Read This Book")))
       .andExpect(jsonPath("$.deliveredOn", equalTo("2018-04-02")));
+  }
+
+  @Test
+  @Transactional
+  @Rollback
+  public void findByTitle_returnsCorrectResponse() throws Exception{
+    Lesson lesson = new Lesson(1L, "Knife of Dreams", new Date(1533081599000L));
+
+    when(lessonRepository.findByTitle(any())).thenReturn(lesson);
+
+    MockHttpServletRequestBuilder request = get("/lessons/find/{}}", "Knife of Dreams")
+      .contentType(MediaType.APPLICATION_JSON);
+
+    this.mvc.perform(request)
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id", instanceOf(Number.class)))
+      .andExpect(jsonPath("$.title", equalTo("Knife of Dreams")))
+      .andExpect(jsonPath("$.deliveredOn", equalTo("2018-07-31")));
+  }
+
+  @Test
+  @Transactional
+  @Rollback
+  public void between_returnsCorrectResults() throws Exception{
+    Lesson lesson0 = new Lesson(1L, "Knife of Dreams", new Date(1533081599000L));
+    Lesson lesson1 = new Lesson(2L, "Crossroads of Twilight", new Date(1531094400000L));
+
+    when(lessonRepository.findBetweenDateRange(any(), any())).thenReturn(asList(lesson0, lesson1));
+
+    MockHttpServletRequestBuilder request = get("/lessons/between")
+      .param("date1", "2018-06-29")
+      .param("date2", "2018-08-01")
+      .contentType(MediaType.APPLICATION_JSON);
+
+    this.mvc.perform(request)
+      .andExpect(status().isOk())
+      .andDo(print())
+      .andExpect(jsonPath("$[0].title", equalTo("Knife of Dreams")))
+      .andExpect(jsonPath("$[1].title", equalTo("Crossroads of Twilight")));
   }
 }
