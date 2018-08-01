@@ -1,7 +1,6 @@
 package com.hutchinson.playground.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -19,6 +18,12 @@ public class Lesson {
   public Lesson() {
   }
 
+  public Lesson(Long id, String title, Date deliveredOn) {
+    this.id = id;
+    this.title = title;
+    this.deliveredOn = deliveredOn;
+  }
+
   public Lesson(String title, Date deliveredOn) {
     this.title = title;
     this.deliveredOn = deliveredOn;
@@ -27,8 +32,6 @@ public class Lesson {
   public Lesson(String title) {
     this.title = title;
   }
-
-
 
   public Long getId() {
     return id;
@@ -57,7 +60,8 @@ public class Lesson {
   @Override
   public String toString() {
     return "Lesson{" +
-      "title='" + title + '\'' +
+      "id=" + id +
+      ", title='" + title + '\'' +
       ", deliveredOn=" + deliveredOn +
       '}';
   }
