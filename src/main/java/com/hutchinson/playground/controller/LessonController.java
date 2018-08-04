@@ -4,9 +4,6 @@ import com.hutchinson.playground.model.Lesson;
 import com.hutchinson.playground.repo.LessonRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -41,8 +38,6 @@ public class LessonController {
   @PatchMapping("/{id}")
   public Lesson patch(@PathVariable Long id, @RequestBody Lesson lesson){
     Optional<Lesson> optionalLesson = this.lessonRepository.findById(id);
-    System.out.println("optionalLesson = " + optionalLesson);
-    System.out.println("lesson.getDeliveredOn() = " + lesson.getDeliveredOn());
     if(optionalLesson.isPresent()){
       optionalLesson.get().setTitle(lesson.getTitle());
       optionalLesson.get().setDeliveredOn(lesson.getDeliveredOn());
