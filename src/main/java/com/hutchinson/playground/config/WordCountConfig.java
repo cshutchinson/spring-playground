@@ -7,7 +7,7 @@ import java.util.List;
 
 @Component
 @ConfigurationProperties("wordcount")
-public class WordCount {
+public class WordCountConfig {
   private Words words;
   private boolean caseSensitive;
 
