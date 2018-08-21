@@ -39,9 +39,12 @@ public class MovieService {
       .accept(MediaType.APPLICATION_JSON)
       .build();
 
-    ResponseEntity<ImdbMovieResponse> response = restTemplate.exchange(request, ImdbMovieResponse.class);
+    ResponseEntity<ImdbMovieResponse> response = restTemplate.getForEntity(request.getUrl(), ImdbMovieResponse.class);
 
     return response.getBody().getSearch();
+  }
 
+  public RestTemplate getRestTemplate() {
+    return restTemplate;
   }
 }

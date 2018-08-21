@@ -52,4 +52,14 @@ public class ImdbMovie {
   public void setYear(String year) {
     this.year = year;
   }
+
+  @Override
+  public String toString() {
+    return "ImdbMovie{" +
+      "title='" + title + '\'' +
+      ", imdbId='" + imdbId + '\'' +
+      ", poster='" + poster + '\'' +
+      ", year='" + year + '\'' +
+      '}';
+  }
 }
