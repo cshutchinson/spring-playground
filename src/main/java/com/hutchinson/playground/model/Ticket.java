@@ -3,11 +3,7 @@ package com.hutchinson.playground.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.*;
 
-@Builder
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
 public class Ticket {
   @JsonProperty("Passenger")
   private Passenger passenger;
@@ -28,6 +24,14 @@ public class Ticket {
   }
   @JsonSetter("price")
   public void setPrice(Integer price) {
+    this.price = price;
+  }
+
+  public Ticket() {
+  }
+
+  public Ticket(Passenger passenger, Integer price) {
+    this.passenger = passenger;
     this.price = price;
   }
 }

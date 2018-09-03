@@ -1,15 +1,12 @@
 package com.hutchinson.playground.controller;
 
 import com.hutchinson.playground.model.*;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 
@@ -37,9 +34,7 @@ public class FlightController {
     List<Ticket> tickets = request.getTickets();
     int sum = tickets.stream().mapToInt(Ticket::getPrice).sum();
 
-    return TotalResponse.builder()
-      .result(sum)
-      .build();
+    return new TotalResponse(sum);
   }
 
   private Date dateGen(String dateString) throws Exception{
@@ -51,52 +46,26 @@ public class FlightController {
   }
 
   private Flight getFlight() throws Exception {
-    Passenger passenger = Passenger.builder()
-      .firstName("Some name")
-      .lastName("Some other name")
-      .build();
+    Passenger passenger = new Passenger("Some name", "Some other name");
 
-    Ticket ticket = Ticket.builder()
-      .passenger(passenger)
-      .price(200)
-      .build();
+    Ticket ticket = new Ticket(passenger, 200);
 
-    return Flight.builder()
-      .departs(dateGen("2017-04-21 14:34"))
-      .tickets(Collections.singletonList(ticket))
-      .build();
+    return new Flight(dateGen("2017-04-21 14:34"), asList(ticket));
   }
 
   private List<Flight> getFlights() throws Exception {
-    Passenger passenger0 = Passenger.builder()
-      .firstName("Some name")
-      .lastName("Some other name")
-      .build();
 
-    Ticket ticket0 = Ticket.builder()
-      .passenger(passenger0)
-      .price(200)
-      .build();
+    Passenger passenger0 = new Passenger("Some name", "Some other name");
 
-    Flight flight0 = Flight.builder()
-      .departs(dateGen("2017-04-21 14:34"))
-      .tickets(Collections.singletonList(ticket0))
-      .build();
+    Ticket ticket0 = new Ticket(passenger0, 200);
 
-    Passenger passenger1 = Passenger.builder()
-      .firstName("Some other name")
-      .lastName(null)
-      .build();
+    Flight flight0 = new Flight(dateGen("2017-04-21 14:34"), asList(ticket0));
 
-    Ticket ticket1 = Ticket.builder()
-      .passenger(passenger1)
-      .price(400)
-      .build();
+    Passenger passenger1 = new Passenger("Some other name", null);
 
-    Flight flight1 = Flight.builder()
-      .departs(dateGen("2017-04-21 14:34"))
-      .tickets(Collections.singletonList(ticket1))
-      .build();
+    Ticket ticket1 = new Ticket(passenger1, 400);
+
+    Flight flight1 = new Flight(dateGen("2017-04-21 14:34"), asList(ticket1));
 
     return asList(flight0, flight1);
   }

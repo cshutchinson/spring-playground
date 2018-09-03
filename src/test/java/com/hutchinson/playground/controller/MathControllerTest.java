@@ -80,7 +80,6 @@ class MathControllerTest {
           .andExpect(content().string("30 + 5 = 35"));
   }
 
-  ///math/sum?n=4&n=5&n=6 should render the string 4 + 5 + 6 = 15
   @Test
   void mathSum_shouldReturnExpectedString_forMultipleParameters() throws Exception{
     this.mvc.perform(post("/math/sum")

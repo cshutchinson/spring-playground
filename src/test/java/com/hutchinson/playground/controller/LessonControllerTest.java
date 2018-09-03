@@ -17,12 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.Optional;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(secure = false)
 public class LessonControllerTest {
   @Autowired
   private MockMvc mvc;
@@ -63,7 +62,7 @@ public class LessonControllerTest {
   public void post_insertRecordIntoDb() throws Exception{
     Lesson lesson = new Lesson("Read this", new Date(1522550617000L));
     lesson.setId(1L);
-    when(lessonRepository.save(any())).thenReturn(lesson);
+    when(lessonRepository.save(any(Lesson.class))).thenReturn(lesson);
 
     MockHttpServletRequestBuilder request = post("/lessons")
       .contentType(MediaType.APPLICATION_JSON)
@@ -81,8 +80,8 @@ public class LessonControllerTest {
   public void patch_updatesAnExistingRecord() throws Exception{
     Lesson lesson = new Lesson(1L,"Don't Read This Book", new Date(1522550617000L));
 
-    when(lessonRepository.findById(any())).thenReturn(Optional.of(lesson));
-    when(lessonRepository.save(any())).thenReturn(lesson);
+    when(lessonRepository.findOne(any())).thenReturn(lesson);
+    when(lessonRepository.save(any(Lesson.class))).thenReturn(lesson);
 
     String uri = String.format("/lessons/%s", lesson.getId());
 

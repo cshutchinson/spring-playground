@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hutchinson.playground.model.Passenger;
 import com.hutchinson.playground.model.Ticket;
 import com.hutchinson.playground.model.TotalRequest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,13 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class FlightControllerTest {
   private MockMvc mvc = MockMvcBuilders.standaloneSetup(new FlightController()).build();
 
-  @BeforeEach
-  void setup() {
-
-  }
 
   @Test
-  void flight_shouldReturnExpectedJson() throws Exception {
+  public void flight_shouldReturnExpectedJson() throws Exception {
     this.mvc.perform(get("/flights/flight")
       .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
       .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -46,7 +41,7 @@ class FlightControllerTest {
   }
 
   @Test
-  void flights_shouldReturnExpectedListOfFlights() throws Exception {
+  public void flights_shouldReturnExpectedListOfFlights() throws Exception {
     this.mvc.perform(get("/flights")
       .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
       .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -61,7 +56,7 @@ class FlightControllerTest {
   }
 
   @Test
-  void total_shouldReturnExpectedJsonResponse_withStringLiteral() throws Exception {
+  public void total_shouldReturnExpectedJsonResponse_withStringLiteral() throws Exception {
     MockHttpServletRequestBuilder request = post("/flights/tickets/total")
       .contentType(MediaType.APPLICATION_JSON)
       .content("{\"tickets\": [{\"passenger\": {\"firstName\": \"Some name\",\"lastName\": \"Some other name\"},\"price\": 200},{\"passenger\": {\"firstName\": \"Name B\",\"lastName\": \"Name C\"},\"price\": 150}]}");
@@ -75,29 +70,15 @@ class FlightControllerTest {
   void total_shouldReturnExpectedJsonResponse_withJacksonSerialization() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
 
-    Passenger passenger0 = Passenger.builder()
-      .firstName("Some name")
-      .lastName("Some other name")
-      .build();
+    Passenger passenger0 = new Passenger("Some name", "Some other name");
 
-    Passenger passenger1 = Passenger.builder()
-      .firstName("Name B")
-      .lastName("Name C")
-      .build();
+    Passenger passenger1 = new Passenger("Name B", "Name C");
 
-    Ticket ticket0 = Ticket.builder()
-      .passenger(passenger0)
-      .price(200)
-      .build();
+    Ticket ticket0 = new Ticket(passenger0, 200);
 
-    Ticket ticket1 = Ticket.builder()
-      .passenger(passenger1)
-      .price(150)
-      .build();
+    Ticket ticket1 = new Ticket(passenger1, 150);
 
-    TotalRequest requestData = TotalRequest.builder()
-      .tickets(asList(ticket0, ticket1))
-      .build();
+    TotalRequest requestData = new TotalRequest(asList(ticket0, ticket1));
 
     String json = objectMapper.writeValueAsString(requestData);
 

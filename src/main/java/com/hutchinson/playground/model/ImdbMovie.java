@@ -1,15 +1,16 @@
 package com.hutchinson.playground.model;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ImdbMovie {
-  @JsonSetter("Title")
+  @JsonProperty("Title")
   private String title;
-  @JsonSetter("imdbID")
+  @JsonProperty("imdbID")
   private String imdbId;
-  @JsonSetter("Poster")
+  @JsonProperty("Poster")
   private String poster;
-  @JsonSetter("Year")
+  @JsonProperty("Year")
   private String year;
 
   public ImdbMovie() {

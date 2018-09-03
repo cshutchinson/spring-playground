@@ -4,8 +4,6 @@ import com.hutchinson.playground.model.Lesson;
 import com.hutchinson.playground.repo.LessonRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/lessons")
 public class LessonController {
@@ -26,24 +24,24 @@ public class LessonController {
   }
 
   @GetMapping("/{id}")
-  public Optional<Lesson> getOne(@PathVariable Long id){
-    return this.lessonRepository.findById(id);
+  public Lesson getOne(@PathVariable Long id){
+    return this.lessonRepository.findOne(id);
   }
 
   @DeleteMapping("/{id}")
   public void delete(@PathVariable Long id){
-    this.lessonRepository.deleteById(id);
+    this.lessonRepository.delete(id);
   }
 
   @PatchMapping("/{id}")
   public Lesson patch(@PathVariable Long id, @RequestBody Lesson lesson){
-    Optional<Lesson> optionalLesson = this.lessonRepository.findById(id);
-    if(optionalLesson.isPresent()){
-      optionalLesson.get().setTitle(lesson.getTitle());
-      optionalLesson.get().setDeliveredOn(lesson.getDeliveredOn());
+    Lesson optionalLesson = this.lessonRepository.findOne(id);
+    if(optionalLesson != null){
+      optionalLesson.setTitle(lesson.getTitle());
+      optionalLesson.setDeliveredOn(lesson.getDeliveredOn());
     }
 
-    return this.lessonRepository.save(optionalLesson.get());
+    return this.lessonRepository.save(optionalLesson);
   }
 
   @GetMapping("/find/{title}")

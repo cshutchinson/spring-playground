@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.*;
 
-@Builder
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
+
 public class Passenger {
   @JsonProperty("FirstName")
   private String firstName;
@@ -29,6 +27,16 @@ public class Passenger {
   }
   @JsonSetter("lastName")
   public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public Passenger(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public Passenger(String firstName, String lastName) {
+
+    this.firstName = firstName;
     this.lastName = lastName;
   }
 }
