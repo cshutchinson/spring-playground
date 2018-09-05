@@ -1,5 +1,8 @@
 package com.hutchinson.playground.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.hutchinson.playground.View.Views;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,9 +12,13 @@ import javax.persistence.Id;
 public class Employee {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonView(Views.NoSalary.class)
   private Long id;
+  @JsonView(Views.NoSalary.class)
   private String name;
+  @JsonView(Views.Salary.class)
   private int salary;
+  @JsonView(Views.NoSalary.class)
   private Long mangerId;
 
   public Employee() {
