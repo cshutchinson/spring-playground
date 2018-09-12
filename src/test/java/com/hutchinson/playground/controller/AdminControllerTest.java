@@ -2,6 +2,7 @@ package com.hutchinson.playground.controller;
 
 import com.hutchinson.playground.config.SecurityConfig;
 import com.hutchinson.playground.repo.EmployeeRepository;
+import com.hutchinson.playground.service.EmployeeDetailsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +31,8 @@ public class AdminControllerTest {
   @Autowired
   private WebApplicationContext context;
 
+  @MockBean
+  EmployeeDetailsService employeeDetailsService;
 
   @MockBean
   EmployeeRepository employeeRepository;
